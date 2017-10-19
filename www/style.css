@@ -1,9 +1,41 @@
 body {
   background-color: #cccccc;
   font-family: Arial, Helvetica, sans-serif;
-  color: #d1d1d1;
+  color: #000000;
 }
 
 h1 {
   color: #ffffff;
+}
+
+#list-container {
+  width: 400px;
+  height: 600px;
+  border: 1px solid #ffffff;
+
+}
+
+#list {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.to-do-div {
+  border: 1px solid #ffffff;
+  height: 30px;
+}
+
+#input-div {
+ height:100px;
+ bottom: 0px;
+ border: 1px solid black;
+}
+
+#input-text {
+  background-color: white;
+}
+
+.delete-button {
+  height: 30px;
+  
 }

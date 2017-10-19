@@ -1,28 +1,52 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const toDoController = require('./ToDoController');
+// const fs = require('fs');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/www'));
+app.use(express.static(__dirname + '/www')); // is there another way to do this?
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
- 
-// mongoose.Promise = global.Promise;
+// app.get(‘/style.css’, (req, res) => {
+//   res.setHeader(‘Content-Type’, ‘text/css’, ‘charset=UTF-8’);
+//   res.statusCode = 200;
+//   res.sendFile(‘./www/styles.css’, {root: __dirname});
+//   // res.sendFile(__dirname + ‘./’ +  ‘client/style.css’);
+// }
+
 mongoose.connect('mongodb://toast:toast@ds147902.mlab.com:47902/study-crud-app');
 
 mongoose.connection.once('open', (err, success) => {
   if (err) console.log('Error not connected');
   console.log('Connected, yay!');
-})
+});
+
 
 const server = app.listen(3000, function() {
   const host = server.address().address;
   const port = server.address().port;
+
   console.log('Example app listening at http://%s:%s', host, port);
 });
 
+const toDoRouter = express.Router();
+
+// create
+toDoRouter.post('/create', toDoController.createToDo); //any post methods on student router, go to /student
+
+// get
+toDoRouter.get('/get', toDoController.getToDos);
+
+//update
+toDoRouter.patch('/update/:id', toDoController.updateToDo);
+
+// delete
+toDoRouter.delete('/delete/:id', toDoController.deleteToDo);
+
+app.use('/todo', toDoRouter);
 
 
 
