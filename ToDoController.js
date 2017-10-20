@@ -21,6 +21,16 @@ const ToDoController = {
     });
   },
 
+  updateToDo(req, res) {
+    ToDo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+      .then((updatedDoc) => {
+        if(!updatedDoc) res.status(418).send('NotFound');
+        res.status(200).send(updatedDoc);
+      })
+      .catch((err) => res.status(418).send());
+    },
+
+
   deleteToDo(req, res) {
     ToDo.findOneAndRemove( { _id: req.params.id })
       .then((deletedDoc) => {

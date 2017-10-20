@@ -41,7 +41,7 @@ toDoRouter.post('/create', toDoController.createToDo); //any post methods on stu
 toDoRouter.get('/get', toDoController.getToDos);
 
 //update
-toDoRouter.patch('/update/:id', toDoController.updateToDo);
+toDoRouter.post('/update/:id', toDoController.updateToDo);
 
 // delete
 toDoRouter.delete('/delete/:id', toDoController.deleteToDo);

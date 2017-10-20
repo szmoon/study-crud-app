@@ -34,6 +34,20 @@ $(document).ready(function() {
     });
   }
 
+  function updateToDo(id) {
+    console.log("trying to update");
+    let input = $('#' + id).val();
+    let data = { todo: input };
+    
+    $.ajax({
+      type: 'POST',
+      url: 'todo/update/' + id,
+      data: data,
+      success: getToDos,
+      dataType: 'json'
+    });
+  }
+  
   function deleteToDo(params) {
     let id = params.data.id;
     
@@ -45,25 +59,27 @@ $(document).ready(function() {
     });
   }
 
-  function updateToDo() {
-    console.log("trying to update");
-  }
 
   function onSuccess(data) {
     $('#list').empty();
     for (x = 0; x < data.length; x ++) {
       // if($("#" + data[x]._id).length === undefined) {
         // make div element for each todo list item
+        let id = data[x]._id;
         let $toDoDiv = $("<div></div>");
         let $textDiv = $("<input>", {id: data[x]._id, "class": "to-do-div"});
         $textDiv.val(data[x].todo);
+        $textDiv.keypress(function (e) {
+          if (e.which === 13) {
+            updateToDo(id);
+          }
+        });
+
         $toDoDiv.append($textDiv);
 
         let $deleteButton = $("<button>x</button>", {"class": "delete-button"});
         $deleteButton.click({id: data[x]._id}, deleteToDo);
         $toDoDiv.append($deleteButton);
-
-
 
         $('#list').append($toDoDiv);  
       // }
