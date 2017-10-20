@@ -3,12 +3,14 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const toDoController = require('./ToDoController');
+const userController = require('./UserController');
 // const fs = require('fs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/www')); // is there another way to do this?
+app.use(express.static(__dirname + '/www')); 
+
 
 // app.get(‘/style.css’, (req, res) => {
 //   res.setHeader(‘Content-Type’, ‘text/css’, ‘charset=UTF-8’);
@@ -34,19 +36,31 @@ const server = app.listen(3000, function() {
 
 const toDoRouter = express.Router();
 
+// load to-do list page
+// app.get('/todo.html', (req, res) => {
+//   res.sendfile(__dirname + '/src/todo.js', {error: null});
+// });
+
+
+app.post('/login', userController.getUser, function (req, res) {
+  return res.redirect('/todo.html');
+})
+
+app.post('/createuser', userController.createUser, function (req, res) {
+  return res.redirect('/index.html');
+})
+
+// routes for to do app
 // create
-toDoRouter.post('/create', toDoController.createToDo); //any post methods on student router, go to /student
-
+app.post('/todo/create', toDoController.createToDo); //any post methods on student router, go to /student
 // get
-toDoRouter.get('/get', toDoController.getToDos);
-
+app.get('/todo/get', toDoController.getToDos);
 //update
-toDoRouter.post('/update/:id', toDoController.updateToDo);
-
+app.post('/todo/update/:id', toDoController.updateToDo);
 // delete
-toDoRouter.delete('/delete/:id', toDoController.deleteToDo);
+app.delete('/todo/delete/:id', toDoController.deleteToDo);
 
-app.use('/todo', toDoRouter);
+
 
 
 

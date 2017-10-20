@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+  $('body').append('<div id="list-container"></div>');
+  $('#list-container').append('<div id="list"></div>');
+  $('#list-container').append('<div id="input-div"></div>');
+
+  // input div contents
+  let $inputText = $("<input>", {"id": "input-text"});
+  $('#input-div').append($inputText);
+  let $inputButton = $("<button>submit</button>", {"id": "input-button"});
+  $inputButton.click(createToDo);
+  $('#input-div').append($inputButton);
+
   function createToDo() {
     let input = $('#input-text').val();
     let data = { todo: input };
